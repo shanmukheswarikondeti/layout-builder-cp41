@@ -1,48 +1,20 @@
-import {Component} from 'react'
-
-import ConfigurationContext from './context/ConfigurationContext'
-
-import ConfigurationController from './components/ConfigurationController'
-
-import Layout from './components/Layout'
-
+import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import './App.css'
 
-class App extends Component {
-  state = {showContent: true, showLeftNavbar: true, showRightNavbar: true}
+import Home from './components/Home'
+import NotFound from './components/NotFound'
+import Search from './components/Search'
+import FavoritePlace from './components/FavoritePlace'
 
-  onToggleShowContent = () => {
-    this.setState(prevState => ({showContent: !prevState.showContent}))
-  }
-
-  onToggleShowLeftNavbar = () => {
-    this.setState(prevState => ({showLeftNavbar: !prevState.showLeftNavbar}))
-  }
-
-  onToggleShowRightNavbar = () => {
-    this.setState(prevState => ({showRightNavbar: !prevState.showRightNavbar}))
-  }
-
-  render() {
-    const {showContent, showLeftNavbar, showRightNavbar} = this.state
-    return (
-      <ConfigurationContext.Provider
-        value={{
-          showContent,
-          showLeftNavbar,
-          showRightNavbar,
-          onToggleShowContent: this.onToggleShowContent,
-          onToggleShowLeftNavbar: this.onToggleShowLeftNavbar,
-          onToggleShowRightNavbar: this.onToggleShowRightNavbar,
-        }}
-      >
-        <div className="app-container">
-          <ConfigurationController />
-          <Layout />
-        </div>
-      </ConfigurationContext.Provider>
-    )
-  }
-}
+const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route exact path="/" element={<Home />} />
+      <Route exact path="/search" element={<Search />} />
+      <Route exact path="/search/:place" element={<FavoritePlace />} />
+      <Route exact path="*" element={<NotFound />} />
+    </Routes>
+  </BrowserRouter>
+)
 
 export default App
